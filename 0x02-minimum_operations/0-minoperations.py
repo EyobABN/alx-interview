@@ -3,5 +3,5 @@
 
 
 def minOperations(n):
-    i = 0
-    return i
+    numberOfOperations = n
+    return numberOfOperations
