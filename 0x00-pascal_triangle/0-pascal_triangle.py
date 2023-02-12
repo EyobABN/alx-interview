@@ -7,9 +7,12 @@ def pascal_triangle(n):
     if (n <= 0):
         return []
     t = []
-    for i in range(n):
-        r = [1]
-        for j in range(i):
-            r.append(1)
+    for i in range(1, n+1):
+        r = []
+        for j in range(1, i+1):
+            if (j == 1 or j == i):
+                r.append(1)
+            else:
+                r.append(t[i-2][j-1] + t[i-2][j-2])
         t.append(r)
     return t
