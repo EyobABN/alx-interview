@@ -3,6 +3,7 @@
 
 
 import sys
+"""
 import ipaddress
 
 
@@ -12,6 +13,7 @@ def is_ipv4(string):
         return True
     except ValueError:
         return False
+        """
 
 
 if __name__ == "__main__":
