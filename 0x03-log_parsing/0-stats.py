@@ -19,6 +19,7 @@ def is_ipv4(string):
         return False
         """
 
+
 def handler(signum, frame):
     print(f"File size: {total_size}")
 
@@ -26,6 +27,7 @@ def handler(signum, frame):
     for code in sorted(codes.keys()):
         print(f"{code}: {codes[code]}")
     raise KeyboardInterrupt
+
 
 signal.signal(signal.SIGINT, handler)
 
