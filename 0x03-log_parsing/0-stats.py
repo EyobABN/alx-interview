@@ -5,10 +5,8 @@
 import signal
 import sys
 import os
-
-
-"""
 import ipaddress
+import datetime
 
 
 def is_ipv4(string):
@@ -17,7 +15,32 @@ def is_ipv4(string):
         return True
     except ValueError:
         return False
-        """
+
+
+"""
+def is_date(string):
+    try:
+        datetime.date.fromisoformat(string)
+        return True
+    except ValueError:
+        return False
+"""
+
+
+def is_get(string):
+    if (string == "GET /projects/260 HTTP/1.1"):
+        return True
+    return False
+
+
+def is_code(string):
+    if (int(string) in [200, 301, 400, 401, 403, 404, 405, 500]):
+        return True
+    return False
+
+
+def is_size(string):
+    return string.isdigit()
 
 
 def handler(signum, frame):
@@ -44,6 +67,12 @@ for line in sys.stdin:
     sc_fs = get_rest[1].split()
     sc = sc_fs[0]
     fs = sc_fs[1]
+
+    if (is_ipv4(ip) is False
+            or is_get(get) is False
+            or is_code(sc) is False
+            or is_size(fs) is False):
+        continue
 
     """ increment total_size """
     total_size += int(fs)
