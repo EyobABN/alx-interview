@@ -5,12 +5,14 @@
 import sys
 import ipaddress
 
+
 def is_ipv4(string):
     try:
         ipaddress.IPv4Network(string)
         return True
     except ValueError:
         return False
+
 
 if __name__ == "__main__":
     counter = 0
