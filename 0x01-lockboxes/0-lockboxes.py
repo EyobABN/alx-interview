@@ -3,6 +3,7 @@
 
 
 def canUnlockAll(boxes):
+    """ Returns true if all boxes can be unlocked as per rules """
     numberOfBoxes = len(boxes)
     expectedKeys = []
     foundKeys = []
