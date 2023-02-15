@@ -16,6 +16,8 @@ if (__name__ == "__main__"):
         counter += 1
         if (counter % 10 == 0):
             print("Hola!")
+            for code in sorted(codes.keys()):
+                print(f"{code}: {codes[code]}")
     """
     Lorem ipsum dolor sit amet, conse
     ctetur adipiscing elit, sed do eiusmod tem
