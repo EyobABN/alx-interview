@@ -15,9 +15,9 @@ if (__name__ == "__main__"):
             codes[sc] = 1
         counter += 1
         if (counter % 10 == 0):
-            print("Hola!")
+            print("File size: {}".format(total_size))
             for code in sorted(codes.keys()):
-                print(f"{code}: {codes[code]}")
+                print("{}: {}".format(code, codes[code]))
     """
     Lorem ipsum dolor sit amet, conse
     ctetur adipiscing elit, sed do eiusmod tem
