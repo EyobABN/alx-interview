@@ -17,14 +17,12 @@ def is_ipv4(string):
         return False
 
 
-"""
 def is_date(string):
     try:
         datetime.date.fromisoformat(string)
         return True
     except ValueError:
         return False
-"""
 
 
 def is_get(string):
