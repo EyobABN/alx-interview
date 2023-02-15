@@ -9,6 +9,17 @@ import ipaddress
 import datetime
 
 
+def handler(signum, frame):
+    print(f"File size: {total_size}")
+
+    """ print sorted codes """
+    for code in sorted(codes.keys()):
+        print(f"{code}: {codes[code]}")
+    raise KeyboardInterrupt
+
+
+signal.signal(signal.SIGINT, handler)
+
 if (__name__ == "__main__"):
     counter = 0
     total_size = 0
