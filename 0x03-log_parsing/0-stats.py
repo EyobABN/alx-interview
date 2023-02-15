@@ -1,59 +1,84 @@
 #!/usr/bin/python3
 """ Module for Log Parser """
 
-import sys
 
-if (__name__ == "__main__"):
-    counter = 0
-    total_size = 0
-    codes = {}
-    for line in sys.stdin:
-        total_size += int(fs)
-        if sc in codes:
-            codes[sc] += 1
-        else:
-            codes[sc] = 1
-        counter += 1
+import signal
+import sys
+import os
+import ipaddress
+import datetime
+
+
+def is_ipv4(string):
+    try:
+        ipaddress.IPv4Network(string)
+        return True
+    except ValueError:
+        return False
+
+
+def is_date(string):
+    try:
+        datetime.date.fromisoformat(string)
+        return True
+    except ValueError:
+        return False
+
+
+def is_get(string):
+    if (string == "GET /projects/260 HTTP/1.1"):
+        return True
+    return False
+
+
+def is_code(string):
+    if (int(string) in [200, 301, 400, 401, 403, 404, 405, 500]):
+        return True
+    return False
+
+
+def is_size(string):
+    return string.isdigit()
+
+
+def handler(signum, frame):
+    print(f"File size: {total_size}")
+
+    """ print sorted codes """
+    for code in sorted(codes.keys()):
+        print(f"{code}: {codes[code]}")
+    raise KeyboardInterrupt
+
+
+signal.signal(signal.SIGINT, handler)
+
+counter = 0
+total_size = 0
+codes = {}
+for line in sys.stdin:
     """
-    Lorem ipsum dolor sit amet, conse
-    ctetur adipiscing elit, sed do eiusmod tem
-    por incididunt ut labore et dolore magna al
-    iqua. Pretium lectus quam id leo in vitae. Li
-    bero enim sed faucibus turpis in eu mi bibe
-    ndum neque. Scelerisque fer
-    mentum dui faucibus in or
-    nare quam viverra orci. Ne
-    que gravida in fermentum et soll
-    icitudin ac orci. Sodales ne
-    que sodales ut etiam sit. Turp
-    is egestas sed tempus urna et pha
-    retra. Tortor pretium viverra sus
-    pendisse potenti nullam ac tor
-    tor vitae. Consequat id porta ni
-    bh venenatis cras sed felis. Mor
-    bi tristique senectus et netus. Ru
-    trum tellus pellentesque eu tinci
-    dunt tortor aliquam nulla facilisi. Pur
-    us faucibus ornare suspendisse sed nisi. Mae
-    cenas volutpat blandit aliquam etiam erat ve
-    lit scelerisque. Dictum fusce ut pla
-    cerat orci nulla pellentesque digniss
-    im enim. Sed id semper risus in hendrerit grav
-    ida rutrum quisque. Vestibulum sed arcu non od
-    io. Nunc non blandit massa enim nec. Vitae jus
-    to eget magna fermentum iaculis eu non diam ph
-    asellus. Dui nunc mattis enim ut tellus eleme
-    ntum sagittis vitae et. Cursus mattis molest
-    ie a iaculis at erat pellentesque. Velit ut to
-    rtor pretium viverra suspendisse. Nunc sceler
-    isque viverra mauris in aliquam sem frin
-    gilla. Mus mauris vitae ultricies leo in
-    teger. Fringilla ut morbi tincidunt augue inte
-    rdum velit. Non odio euismod lacinia at qu
-    is. Fames ac turpis egestas integer eget a
-    liquet nibh praesent. Id diam maecenas ul
-    tricies mi eget mauris pharetra et ultri
-    ces. Et pharetra pharetra massa mas
-    sa. Nunc congue nisi vitae susci
-    pit tellus. Eu ultrices vitae auctor eu augue.
+    date_sep = line.split(' - [')
+    ip = date_sep[0]
+    date_rest = date_sep[1].split('] "')
+    date = date_rest[0]
+    get_rest = date_rest[1].split('"')
+    get = get_rest[0]
+    sc_fs = get_rest[1].split()
+    sc = sc_fs[0]
+    fs = sc_fs[1]
+    if (is_ipv4(ip) is False or
+            is_get(get) is False or
+            is_code(sc) is False or
+            is_size(fs) is False):
+        continue
+    total_size += int(fs)
+    if sc in codes:
+        codes[sc] += 1
+    else:
+        codes[sc] = 1
+    counter += 1
+    if (counter % 10 == 0):
+        print(f"File size: {total_size}")
+        for code in sorted(codes.keys()):
+            print(f"{code}: {codes[code]}")
     """
