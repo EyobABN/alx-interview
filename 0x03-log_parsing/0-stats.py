@@ -10,11 +10,9 @@ import datetime
 
 
 def handler(signum, frame):
-    print(f"File size: {total_size}")
-
-    """ print sorted codes """
+    print("File size: {}".format(total_size))
     for code in sorted(codes.keys()):
-        print(f"{code}: {codes[code]}")
+        print("{}: {}".format(code, codes[code]))
     raise KeyboardInterrupt
 
 
