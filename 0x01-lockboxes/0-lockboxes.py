@@ -11,9 +11,9 @@ def canUnlockAll(boxes):
         expectedKeys.append(i)
     for boxNumber, box in enumerate(boxes):
         for key in box:
-            if (key != boxNumber
-                    and key in expectedKeys
-                    and key not in foundKeys):
+            if (key != boxNumber and
+                    key in expectedKeys and
+                    key not in foundKeys):
                 foundKeys.append(key)
     foundKeys = sorted(foundKeys)
     if (foundKeys == expectedKeys):
