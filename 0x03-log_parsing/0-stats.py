@@ -77,6 +77,4 @@ for line in sys.stdin:
         codes[sc] = 1
     counter += 1
     if (counter % 10 == 0):
-        print("File size: {}".format(total_size))
-        for code in sorted(codes.keys()):
-            print("{}: {}".format(code, codes[code]))
+        pass
