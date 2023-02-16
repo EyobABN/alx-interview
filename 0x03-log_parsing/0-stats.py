@@ -3,7 +3,6 @@
 
 
 # import signal
-import random
 import sys
 import ipaddress
 from time import sleep
@@ -74,7 +73,6 @@ if (__name__ == "__main__"):
                 for code in sorted(codes.keys()):
                     print("{}: {}".format(code, codes[code]))
     except KeyboardInterrupt:
-        sleep(random.random())
         print("File size: {}".format(total_size))
         for code in sorted(codes.keys()):
             print("{}: {}".format(code, codes[code]))
