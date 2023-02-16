@@ -32,6 +32,11 @@ def is_size(string):
     return string.isdigit()
 
 
+def print_stats(total_size, codes):
+    print("File size: {}".format(total_size))
+    for code in sorted(codes.keys()):
+        print("{}: {}".format(code, codes[code]))
+
 # def handler(signum, frame):
 #     print("File size: {}".format(total_size))
 #     for code in sorted(codes.keys()):
@@ -48,6 +53,9 @@ if (__name__ == "__main__"):
 
     try:
         for line in sys.stdin:
+            if (counter != 0 and counter % 10 == 0):
+                print_stats(total_size, codes)
+            counter += 1
             date_sep = line.split(' - [')
             ip = date_sep[0]
             date_rest = date_sep[1].split('] "')
@@ -62,17 +70,18 @@ if (__name__ == "__main__"):
                     is_code(sc) is False or
                     is_size(fs) is False):
                 continue
-            total_size += int(fs)
-            if sc in codes:
-                codes[sc] += 1
-            else:
-                codes[sc] = 1
-            counter += 1
-            if (counter % 10 == 0):
-                print("File size: {}".format(total_size))
-                for code in sorted(codes.keys()):
-                    print("{}: {}".format(code, codes[code]))
+            try:
+                total_size += int(fs)
+            except KeyboardInterrupt:
+                pass
+
+            try:
+                if sc in codes:
+                    codes[sc] += 1
+                else:
+                    codes[sc] = 1
+            except KeyboardInterrupt:
+                pass
     except KeyboardInterrupt:
-        print("File size: {}".format(total_size))
-        for code in sorted(codes.keys()):
-            print("{}: {}".format(code, codes[code]))
+        print_stats(total_size, codes)
+        raise
