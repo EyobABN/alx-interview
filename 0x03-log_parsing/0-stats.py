@@ -1,87 +1,45 @@
 #!/usr/bin/python3
-""" Module for Log Parser """
 
+"""Script that reads stdin line by line and computes metrics"""
 
-# import signal
 import sys
-import ipaddress
-from time import sleep
 
 
-def is_ipv4(string):
-    try:
-        ipaddress.IPv4Network(string)
-        return True
-    except ValueError:
-        return False
+def printsts(dic, size):
+    """ WWPrints information """
+    print("File size: {:d}".format(size))
+    for i in sorted(dic.keys()):
+        if dic[i] != 0:
+            print("{}: {:d}".format(i, dic[i]))
 
 
-def is_get(string):
-    if (string == "GET /projects/260 HTTP/1.1"):
-        return True
-    return False
+sts = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0,
+       "404": 0, "405": 0, "500": 0}
+
+count = 0
+size = 0
+
+try:
+    for line in sys.stdin:
+        if count != 0 and count % 10 == 0:
+            printsts(sts, size)
+
+        stlist = line.split()
+        count += 1
+
+        try:
+            size += int(stlist[-1])
+        except KeyboardInterrupt:
+            pass
+
+        try:
+            if stlist[-2] in sts:
+                sts[stlist[-2]] += 1
+        except KeyboardInterrupt:
+            pass
+    printsts(sts, size)
 
 
-def is_code(string):
-    if (int(string) in [200, 301, 400, 401, 403, 404, 405, 500]):
-        return True
-    return False
-
-
-def is_size(string):
-    return string.isdigit()
-
-
-def print_stats(total_size, codes):
-    print("File size: {}".format(total_size))
-    for code in sorted(codes.keys()):
-        print("{}: {}".format(code, codes[code]))
-
-# def handler(signum, frame):
-#     print("File size: {}".format(total_size))
-#     for code in sorted(codes.keys()):
-#         print("{}: {}".format(code, codes[code]))
-#     raise KeyboardInterrupt
-
-
-# signal.signal(signal.SIGINT, handler)
-
-if (__name__ == "__main__"):
-    counter = 0
-    total_size = 0
-    codes = {}
-
-    try:
-        for line in sys.stdin:
-            if (counter != 0 and counter % 10 == 0):
-                print_stats(total_size, codes)
-            counter += 1
-            date_sep = line.split(' - [')
-            ip = date_sep[0]
-            date_rest = date_sep[1].split('] "')
-            date = date_rest[0]
-            get_rest = date_rest[1].split('"')
-            get = get_rest[0]
-            sc_fs = get_rest[1].split()
-            sc = sc_fs[0]
-            fs = sc_fs[1]
-            if (is_ipv4(ip) is False or
-                    is_get(get) is False or
-                    is_code(sc) is False or
-                    is_size(fs) is False):
-                continue
-            try:
-                total_size += int(fs)
-            except KeyboardInterrupt:
-                pass
-
-            try:
-                if sc in codes:
-                    codes[sc] += 1
-                else:
-                    codes[sc] = 1
-            except KeyboardInterrupt:
-                pass
-    except KeyboardInterrupt:
-        print_stats(total_size, codes)
-        raise
+except KeyboardInterrupt:
+    printsts(sts, size)
+    raise
