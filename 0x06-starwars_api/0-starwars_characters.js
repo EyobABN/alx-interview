@@ -3,21 +3,6 @@
 const request = require('request');
 const API_URL = 'https://swapi-api.alx-tools.com/api/';
 
-/* if (process.argv.length > 2) {
-  request(
-    `${API_URL}/films/${process.argv[2]}/`, (err, _, body) => {
-      if (err) console.log(err);
-      const charactersURL = JSON.parse(body).characters;
-      const charactersName = charactersURL.map(
-        request(url, (promiseErr, __, charactersReqBody) => {
-          if (promiseErr) reject(promiseErr);
-          resolve(JSON.parse(charactersReqBody).name);
-        });
-      );
-    }
-  );
-} */
-
 if (process.argv.length > 2) {
   request(`${API_URL}/films/${process.argv[2]}/`, (err, _, body) => {
     if (err) {
