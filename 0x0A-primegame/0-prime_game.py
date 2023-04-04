@@ -18,9 +18,7 @@ def get_primes(n):
 
 def isWinner(x, nums):
     """Prime Game function"""
-    if not isinstance(x, int):
-        return None
-    if not isinstance(nums, list) or not all(isinstance(i, int) for i in nums):
+    if x < 1 or not nums:
         return None
     p1 = 'Maria'
     p2 = 'Ben'
@@ -29,13 +27,10 @@ def isWinner(x, nums):
 
     for n in nums:
         primes = get_primes(n)
-        if len(primes) == 0 or len(primes) % 2 == 0:
+        if len(primes) % 2 == 0:
             p2_score += 1
         else:
             p1_score += 1
-
-    # print('Maria : {}'.format(p1_score))
-    # print('Ben   : {}'.format(p2_score))
 
     if p1_score > p2_score:
         return p1
