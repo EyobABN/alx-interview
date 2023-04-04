@@ -39,4 +39,6 @@ def isWinner(x, nums):
 
     if p1_score > p2_score:
         return p1
+    elif p1_score == p2_score:
+        return None
     return p2
