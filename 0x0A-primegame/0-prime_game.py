@@ -19,9 +19,9 @@ def get_primes(n):
 def isWinner(x, nums):
     """Prime Game function"""
     if not isinstance(x, int):
-        raise TypeError('First argument must be an integer')
+        return None
     if not isinstance(nums, list) or not all(isinstance(i, int) for i in nums):
-        raise TypeError('Second Argument must be a list of integers')
+        return None
     p1 = 'Maria'
     p2 = 'Ben'
     p1_score = 0
