@@ -19,8 +19,8 @@ def get_primes(n):
 def isWinner(x, nums):
     """Prime Game function"""
     if not (isinstance(x, int)
-            and not isinstance(nums, list)
-            and not all(isinstance(i, int) for i in nums)):
+            and isinstance(nums, list)
+            and all(isinstance(i, int) for i in nums)):
         return None
     p1 = 'Maria'
     p2 = 'Ben'
